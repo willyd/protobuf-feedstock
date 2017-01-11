@@ -1,7 +1,7 @@
 :: Doesn't include gmock or gtest. So, need to get these ourselves for `make check`.
-git clone -b release-1.7.0 git://github.com/google/googlemock.git gmock
+git clone -b release-1.7.0 https://github.com/google/googlemock.git gmock
 if errorlevel 1 exit 1
-git clone -b release-1.7.0 git://github.com/google/googletest.git gmock/gtest
+git clone -b release-1.7.0 https://github.com/google/googletest.git gmock/gtest
 if errorlevel 1 exit 1
 
 :: Setup directory structure per protobuf's instructions.
@@ -17,18 +17,18 @@ cd release
 if errorlevel 1 exit 1
 
 :: Configure and install based on protobuf's instructions and other `bld.bat`s.
-cmake -G "NMake Makefiles" ^
+cmake -G "Ninja" ^
          -DCMAKE_BUILD_TYPE=Release ^
          -DCMAKE_PREFIX_PATH=%LIBRARY_PREFIX% ^
          -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
          -Dprotobuf_WITH_ZLIB=ON ^
          ../..
 if errorlevel 1 exit 1
-nmake
+cmake --build .
 if errorlevel 1 exit 1
-nmake check
+cmake --build . --target check
 if errorlevel 1 exit 1
-nmake install
+cmake --build . --target install
 if errorlevel 1 exit 1
 
 :: Install the Python portions too.
