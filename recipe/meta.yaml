@@ -11,6 +11,8 @@ source:
     fn: {{ name }}-{{ version }}.tar.gz
     url: https://github.com/google/protobuf/archive/{{ version_str }}/{{ name }}-{{ version_str }}.tar.gz
     sha256: {{ sha256 }}
+    patches:
+      - 0001-Fix-MSVC-build-when-HAVE_LONG_LONG-is-defined.patch  # [win]
 
 build:
     number: 0
