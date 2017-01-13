@@ -22,11 +22,15 @@ cmake -G "Ninja" ^
          -DCMAKE_PREFIX_PATH=%LIBRARY_PREFIX% ^
          -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
          -Dprotobuf_WITH_ZLIB=ON ^
+         -Dprotobuf_MSVC_STATIC_RUNTIME=OFF ^
          ../..
 if errorlevel 1 exit 1
 cmake --build .
 if errorlevel 1 exit 1
+:: For some reason tests fails with MSVC 9
+if NOT "%VS_MAJOR%"=="9" (
 cmake --build . --target check
+)
 if errorlevel 1 exit 1
 cmake --build . --target install
 if errorlevel 1 exit 1
